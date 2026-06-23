@@ -350,3 +350,239 @@ setTimeout(() => {
   if (badge && !chatOpen) { badge.textContent = '?'; badge.classList.add('active'); }
 }, 9000);
 
+
+// ===== TESTIMONIALS CAROUSEL =====
+(function () {
+  var track = document.getElementById("testiTrack");
+  var wrap = document.getElementById("testiTrackWrap");
+  var btnPrev = document.getElementById("testiBtnPrev");
+  var btnNext = document.getElementById("testiBtnNext");
+  var dotsEl = document.getElementById("testiDots");
+  if (!track) return;
+
+  var cards = Array.from(track.children);
+  var totalCards = cards.length;
+  var current = 0;
+  var visibleCount = 3; // cards visible at once on desktop
+  var maxIndex = totalCards - visibleCount;
+
+  // Build dots
+  cards.forEach(function (_, i) {
+    var d = document.createElement("button");
+    d.className = "testi-dot" + (i === 0 ? " active" : "");
+    d.setAttribute("aria-label", "Go to testimonial " + (i + 1));
+    d.addEventListener("click", function () {
+      goTo(i);
+    });
+    dotsEl.appendChild(d);
+  });
+
+  function getCardWidth() {
+    if (!cards[0]) return 0;
+    return cards[0].getBoundingClientRect().width + 24; // 24 = gap
+  }
+
+  function goTo(idx) {
+    // Clamp
+    current = Math.max(0, Math.min(idx, Math.max(0, maxIndex)));
+    track.style.transform =
+      "translateX(-" + current * getCardWidth() + "px)";
+    // Dots
+    Array.from(dotsEl.children).forEach(function (d, i) {
+      d.classList.toggle("active", i === current);
+    });
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current >= maxIndex;
+  }
+
+  function updateVisible() {
+    var w = wrap.offsetWidth;
+    if (w < 600) {
+      visibleCount = 1;
+    } else if (w < 960) {
+      visibleCount = 2;
+    } else {
+      visibleCount = 3;
+    }
+    maxIndex = Math.max(0, totalCards - visibleCount);
+    goTo(current);
+  }
+
+  btnPrev.addEventListener("click", function () {
+    goTo(current - 1);
+  });
+  btnNext.addEventListener("click", function () {
+    goTo(current + 1);
+  });
+
+  // Drag / swipe
+  var dragStart = null,
+    dragDelta = 0,
+    isDragging = false;
+
+  function onDragStart(x) {
+    dragStart = x;
+    isDragging = true;
+  }
+  function onDragMove(x) {
+    if (!isDragging) return;
+    dragDelta = x - dragStart;
+  }
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    var threshold = 60;
+    if (dragDelta < -threshold) goTo(current + 1);
+    else if (dragDelta > threshold) goTo(current - 1);
+    else goTo(current);
+    dragDelta = 0;
+  }
+
+  // Mouse
+  wrap.addEventListener("mousedown", function (e) {
+    onDragStart(e.clientX);
+  });
+  window.addEventListener("mousemove", function (e) {
+    onDragMove(e.clientX);
+  });
+  window.addEventListener("mouseup", onDragEnd);
+
+  // Touch
+  wrap.addEventListener(
+    "touchstart",
+    function (e) {
+      onDragStart(e.touches[0].clientX);
+    },
+    { passive: true },
+  );
+  wrap.addEventListener(
+    "touchmove",
+    function (e) {
+      onDragMove(e.touches[0].clientX);
+    },
+    { passive: true },
+  );
+  wrap.addEventListener("touchend", onDragEnd);
+
+  // Init
+  updateVisible();
+  window.addEventListener("resize", updateVisible);
+  goTo(0);
+})();
+
+// ===== SPLASH SCREEN =====
+(function () {
+  var splash = document.getElementById("splash");
+  if (!splash) return;
+
+  // Only show the splash once per browser session. After the first
+  // load, navigating away (e.g. to a blog page) and back skips it.
+  var SEEN_KEY = "tinyStarSplashSeen";
+  var alreadySeen = false;
+  try {
+    alreadySeen = sessionStorage.getItem(SEEN_KEY) === "1";
+  } catch (e) {}
+
+  if (alreadySeen) {
+    document.documentElement.classList.remove("splash-active");
+    splash.remove();
+    return;
+  }
+
+  try {
+    sessionStorage.setItem(SEEN_KEY, "1");
+  } catch (e) {}
+
+  document.documentElement.classList.add("splash-active");
+  document.body.classList.add("splash-active");
+
+  var reduce =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- Twinkling / drifting starfield ---- */
+  var canvas = document.getElementById("splashStars");
+  var raf;
+  if (canvas && canvas.getContext && !reduce) {
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h, stars;
+
+    function build() {
+      w = canvas.width = window.innerWidth * dpr;
+      h = canvas.height = window.innerHeight * dpr;
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      var count = Math.floor((window.innerWidth * window.innerHeight) / 7000);
+      stars = [];
+      for (var i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: (Math.random() * 1.4 + 0.3) * dpr,
+          a: Math.random(),
+          tw: Math.random() * 0.02 + 0.004,
+          vy: (Math.random() * 0.12 + 0.02) * dpr,
+          gold: Math.random() > 0.78,
+        });
+      }
+    }
+
+    var dir = 1;
+    function frame() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i];
+        s.a += s.tw * dir;
+        if (s.a > 1) { s.a = 1; }
+        if (s.a < 0.1) { s.a = 0.1; }
+        s.y += s.vy;
+        if (s.y > h) { s.y = 0; s.x = Math.random() * w; }
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = s.gold
+          ? "rgba(255,209,102," + s.a + ")"
+          : "rgba(255,255,255," + s.a * 0.85 + ")";
+        ctx.shadowBlur = s.gold ? 6 : 0;
+        ctx.shadowColor = "rgba(255,209,102,0.8)";
+        ctx.fill();
+        if (Math.random() < 0.004) s.tw *= -1;
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    build();
+    frame();
+    window.addEventListener("resize", build);
+  }
+
+  /* ---- Dismiss ---- */
+  function hideSplash() {
+    if (splash.classList.contains("is-hiding")) return;
+    splash.classList.add("is-hiding");
+    document.documentElement.classList.remove("splash-active");
+    document.body.classList.remove("splash-active");
+    setTimeout(function () {
+      if (raf) cancelAnimationFrame(raf);
+      splash.remove();
+    }, 900);
+  }
+
+  // Minimum on-screen time so the reveal animation can play out,
+  // then wait for the page load to finish.
+  var MIN = reduce ? 400 : 3000;
+  var start = performance.now();
+
+  function ready() {
+    var elapsed = performance.now() - start;
+    setTimeout(hideSplash, Math.max(0, MIN - elapsed));
+  }
+
+  if (document.readyState === "complete") {
+    ready();
+  } else {
+    window.addEventListener("load", ready);
+  }
+  // Hard fallback in case `load` never fires
+  setTimeout(hideSplash, 6000);
+})();
