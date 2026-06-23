@@ -3769,8 +3769,8 @@ body.splash-active {
 /* Self-drawing star outline */
 .splash__star {
   position: absolute;
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   z-index: 1;
 }
 .splash__star-path {
@@ -3891,7 +3891,7 @@ body.splash-active {
 
 @media (max-width: 600px) {
   .splash__mark { width: 124px; height: 124px; margin-bottom: 24px; }
-  .splash__star { width: 80px; height: 80px; }
+  .splash__star { width: 48px; height: 48px; }
   .splash__logo-wrap { width: 64px; height: 64px; }
 }
 
