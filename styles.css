@@ -366,13 +366,6 @@ ul { list-style: none; }
   max-width: 460px;
 }
 .hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; }
-.hero__locations {
-  margin-top: 40px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
 .hero__loc-label {
   font-size: 0.8rem;
   color: rgba(255,255,255,0.5);
@@ -3506,15 +3499,6 @@ html.js .reveal.visible {
   font-style: italic;
 }
 .hero__cta-group { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
-.hero__cta-hint {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.45);
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.hero__cta-hint::before { content:'🔒'; font-size: 0.8rem; }
 
 /* ===== ENHANCED TRUST BAR ===== */
 .trust-bar__item .trust-bar__val {
