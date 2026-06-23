@@ -5,7 +5,6 @@ const chatBadge = document.getElementById('chatBadge');
 const chatInput = document.getElementById('chatInput');
 const fabIcon = document.getElementById('fabIcon');
 let chatOpen = false;
-let badgeCount = 1;
 
 const chatReplies = {
   'Tell me about programs': "We have two year-round programs:\n\n📝 **After-School Class** — 8 structured lessons where children go from idea to a professionally published book.\n\n📖 **Create A Book Workshop** — A 120-minute hands-on intro session, perfect to try first! Would you like to register for one?",
@@ -19,7 +18,7 @@ function addMessage(text, isBot) {
   msg.className = `chatmsg chatmsg--${isBot ? 'bot' : 'user'}`;
   const html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
   msg.innerHTML = isBot
-    ? `<div class="chatmsg__avatar"><img src="assets/brand/tinystar-logo.png" alt="Tiny Star" style="width:24px;height:24px;object-fit:contain;display:block;"></div><div class="chatmsg__bubble">${html}</div>`
+    ? `<div class="chatmsg__avatar"><img src="assets/brand/tiny-star-logo.png" alt="Tiny Star" style="width:24px;height:24px;object-fit:contain;display:block;"></div><div class="chatmsg__bubble">${html}</div>`
     : `<div class="chatmsg__bubble">${html}</div>`;
   chatMessages.appendChild(msg);
   chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -29,7 +28,7 @@ function showTyping() {
   const typing = document.createElement('div');
   typing.className = 'chatmsg chatmsg--bot';
   typing.id = 'typingIndicator';
-  typing.innerHTML = `<div class="chatmsg__avatar"><img src="assets/brand/tinystar-logo.png" alt="Tiny Star" style="width:24px;height:24px;object-fit:contain;display:block;"></div><div class="chat-typing"><span></span><span></span><span></span></div>`;
+  typing.innerHTML = `<div class="chatmsg__avatar"><img src="assets/brand/tiny-star-logo.png" alt="Tiny Star" style="width:24px;height:24px;object-fit:contain;display:block;"></div><div class="chat-typing"><span></span><span></span><span></span></div>`;
   chatMessages.appendChild(typing);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -62,7 +61,7 @@ function sendChat() {
   }, 1400);
 }
 
-const FAB_LOGO = '<img src="assets/brand/tinystar-logo.png" alt="Tiny Star">';
+const FAB_LOGO = '<img src="assets/brand/tiny-star-logo.png" style="width:50px;height:50px;" alt="Tiny Star">';
 const FAB_CLOSE = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 const chatFab = document.getElementById('chatFab');
 
@@ -70,15 +69,15 @@ function toggleChat() {
   chatOpen = !chatOpen;
   chatPanel.classList.toggle('open', chatOpen);
   fabIcon.innerHTML = chatOpen ? FAB_CLOSE : FAB_LOGO;
-  chatFab.style.background = chatOpen ? '#0E1650' : 'transparent';
-  if (chatOpen) { chatBadge.style.display = 'none'; badgeCount = 0; }
+  chatFab.classList.toggle('open', chatOpen);
+  if (chatOpen) { chatBadge.style.display = 'none'; }
 }
 
 document.getElementById('chatClose').addEventListener('click', () => {
   chatOpen = false;
   chatPanel.classList.remove('open');
   fabIcon.innerHTML = FAB_LOGO;
-  chatFab.style.background = 'transparent';
+  chatFab.classList.remove('open');
 });
 
 
@@ -289,7 +288,7 @@ function handleSubscribe(e) {
   e.preventDefault();
   const btn = e.target.querySelector('button');
   btn.textContent = '✅ You are in! Welcome to Tiny Star!';
-  btn.style.background = '#16A34A';
+  btn.classList.add('subscribed');
   btn.disabled = true;
   e.target.querySelectorAll('input').forEach(i => i.disabled = true);
 }
@@ -305,9 +304,39 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// ===== FOOTER STARS BACKGROUND =====
+(function() {
+  const starsContainer = document.getElementById('footerStars');
+  if (!starsContainer) return;
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.style.cssText = `
+      position: absolute;
+      width: ${Math.random() * 2 + 1}px;
+      height: ${Math.random() * 2 + 1}px;
+      background: rgba(255,255,255,${Math.random() * 0.6 + 0.2});
+      border-radius: 50%;
+      left: ${Math.random() * 100}%;
+      top: ${Math.random() * 100}%;
+      animation: twinkle-footer ${Math.random() * 3 + 2}s ease-in-out infinite;
+      animation-delay: ${Math.random() * 2}s;
+    `;
+    starsContainer.appendChild(star);
+  }
+})();
+
+
+// ===== MARQUEE LOOP DUPLICATION =====
+(function() {
+  const track = document.getElementById('marqueeTrack');
+  if (!track) return;
+  const items = Array.from(track.querySelectorAll('.marquee-item'));
+  items.forEach(item => track.appendChild(item.cloneNode(true)));
+})();
+
 // ===== CHATBOT NUDGE =====
 setTimeout(() => {
   const badge = document.getElementById('chatBadge');
-  if (badge && !chatOpen) { badge.textContent = '?'; badge.style.background = '#FF4F3B'; }
+  if (badge && !chatOpen) { badge.textContent = '?'; badge.classList.add('active'); }
 }, 9000);
 
