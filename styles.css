@@ -40,7 +40,12 @@
 
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: auto; font-size: 16px; scroll-padding-top: 80px; }
+
+/* Offset all named anchors so the fixed nav doesn't obscure them */
+section[id], div[id] {
+  scroll-margin-top: 80px;
+}
 body {
   font-family: var(--font-body);
   background: var(--cream);
@@ -330,6 +335,35 @@ ul { list-style: none; }
   width: 100%;
 }
 .hero__content { max-width: 650px; }
+
+/* Hide hero content upfront when JS is active so GSAP can animate it in
+   without a flash. Scoped to html.js so non-JS visitors always see content.
+   splash-active guard ensures elements stay invisible until splash exits. */
+html.js .hero__badge,
+html.js .hero__headline,
+html.js .hero__sub,
+html.js .hero__ctas,
+html.js .hero__cta-hint,
+html.js .hero__locations {
+  opacity: 0;
+  transform: translateY(30px);
+}
+html.js .hero__book {
+  opacity: 0;
+  transform: translateY(40px) scale(0.65);
+}
+/* Once splash is gone (class removed), GSAP takes over — no extra rule needed.
+   If GSAP fails, force-show everything as a safety net after 4s via the
+   hero-revealed class added by JS. */
+html.js.hero-revealed .hero__badge,
+html.js.hero-revealed .hero__headline,
+html.js.hero-revealed .hero__sub,
+html.js.hero-revealed .hero__ctas,
+html.js.hero-revealed .hero__cta-hint,
+html.js.hero-revealed .hero__locations,
+html.js.hero-revealed .hero__book {
+  opacity: 1;
+}
 .hero__badge {
   display: inline-flex;
   align-items: center;

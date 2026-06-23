@@ -225,19 +225,56 @@ if (!REDUCE_MOTION && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'u
   try {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero entrance timeline
-    gsap.timeline({ delay: 0.15 })
-      .from('.hero__badge',    { opacity: 0, y: 24, duration: 0.65, ease: 'power3.out' })
-      .from('.hero__headline', { opacity: 0, y: 48, duration: 0.85, ease: 'power3.out' }, '-=0.4')
-      .from('.hero__sub',      { opacity: 0, y: 30, duration: 0.75, ease: 'power3.out' }, '-=0.5')
-      .from('.hero__ctas',     { opacity: 0, y: 20, duration: 0.65, ease: 'power3.out' }, '-=0.45')
-      .from('.hero__cta-hint', { opacity: 0, duration: 0.5 }, '-=0.3')
-      .from('.hero__locations',{ opacity: 0, y: 10, duration: 0.5 }, '-=0.3')
-      .from('.hero__book', {
-        opacity: 0, scale: 0.65, y: 40, duration: 0.75,
-        stagger: 0.15, ease: 'back.out(1.7)',
-        clearProps: 'transform' /* hand control back to the CSS float animation */
-      }, '-=0.6');
+    function runHeroTimeline() {
+      // Safety net: if GSAP fails mid-way, force-show hero after 4s
+      const safetyTimer = setTimeout(function () {
+        document.documentElement.classList.add('hero-revealed');
+      }, 4000);
+
+      gsap.timeline({ delay: 0.1, onComplete: function () {
+        clearTimeout(safetyTimer);
+        // Remove inline styles GSAP set so CSS float animations take over cleanly
+        document.documentElement.classList.add('hero-revealed');
+        gsap.set(['.hero__badge','.hero__headline','.hero__sub','.hero__ctas',
+                  '.hero__cta-hint','.hero__locations','.hero__book'], { clearProps: 'all' });
+      }})
+        .to('.hero__badge',    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' })
+        .to('.hero__headline', { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' }, '-=0.4')
+        .to('.hero__sub',      { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out' }, '-=0.5')
+        .to('.hero__ctas',     { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' }, '-=0.45')
+        .to('.hero__cta-hint', { opacity: 1, duration: 0.5 }, '-=0.3')
+        .to('.hero__locations',{ opacity: 1, y: 0, duration: 0.5 }, '-=0.3')
+        .to('.hero__book', {
+          opacity: 1, scale: 1, y: 0, duration: 0.75,
+          stagger: 0.15, ease: 'back.out(1.7)',
+          clearProps: 'transform'
+        }, '-=0.6');
+    }
+
+    // If splash is showing, wait for it to finish before animating hero.
+    // The splash removes html.splash-active when it exits.
+    if (document.documentElement.classList.contains('splash-active')) {
+      const splashEl = document.getElementById('splash');
+      if (splashEl) {
+        // MutationObserver watches for the splash element being removed from DOM
+        const mo = new MutationObserver(function (mutations, obs) {
+          mutations.forEach(function (m) {
+            m.removedNodes.forEach(function (node) {
+              if (node === splashEl || node.id === 'splash') {
+                obs.disconnect();
+                runHeroTimeline();
+              }
+            });
+          });
+        });
+        mo.observe(document.body, { childList: true, subtree: false });
+      } else {
+        runHeroTimeline();
+      }
+    } else {
+      // No splash (returning visitor) — animate immediately
+      runHeroTimeline();
+    }
 
     // Journey connector draw-in (connectors are not .reveal elements)
     gsap.from('.journey__connector', {
@@ -304,15 +341,43 @@ function handleSubscribe(e) {
 }
 
 // ===== SMOOTH SCROLL =====
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+(function () {
+  function navHeight() {
+    const nav = document.getElementById('navbar');
+    return nav ? nav.getBoundingClientRect().height : 80;
+  }
+
+  // Eased scroll — cubic ease-in-out, independent of native scroll-behavior
+  function easedScrollTo(targetY, duration) {
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+    const startTime = performance.now();
+    function step(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // cubic ease-in-out
+      const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      window.scrollTo(0, startY + dist * ease);
+      if (t < 1) requestAnimationFrame(step);
     }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - navHeight() - 8);
+        easedScrollTo(top, 700);
+        if (history.pushState) history.pushState(null, '', href);
+      }
+    });
   });
-});
+})();
 
 // ===== FOOTER STARS BACKGROUND =====
 (function() {
