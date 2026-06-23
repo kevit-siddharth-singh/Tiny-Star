@@ -143,9 +143,19 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ===== MOBILE NAV =====
-document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileNav').classList.add('open'));
-document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileNav').classList.remove('open'));
-function closeMobile() { document.getElementById('mobileNav').classList.remove('open'); }
+const hamburger = document.getElementById('hamburger');
+const mobileClose = document.getElementById('mobileClose');
+const mobileNav = document.getElementById('mobileNav');
+
+if (hamburger && mobileNav) {
+  hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
+}
+if (mobileClose && mobileNav) {
+  mobileClose.addEventListener('click', () => mobileNav.classList.remove('open'));
+}
+function closeMobile() {
+  if (mobileNav) mobileNav.classList.remove('open');
+}
 
 // ===== AURORA PARALLAX =====
 const auroraOrbs = document.querySelectorAll('.aurora__orb');

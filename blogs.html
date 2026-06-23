@@ -1,215 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="assets/brand/tiny-star-logo.png">
-  <title>Blog - Tiny Star</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script>document.documentElement.classList.add('js');</script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-  <!-- ===== NAVIGATION ===== -->
-  <nav class="nav blog" id="navbar">
-    <div class="container">
-      <div class="nav__inner">
-        <a href="/" class="nav__logo">
-          <div class="nav__logo-img">
-            <img src="assets/brand/tiny-star-logo.png" alt="Tiny Star logo">
-          </div>
-          Tiny Star
-        </a>
-        <div class="nav__links">
-          <a href="/#programs">Programs</a>
-          <a href="/#camps">Camps</a>
-          <a href="/#authors">Young Authors</a>
-          <a href="/#partners">Partner With Us</a>
-          <a href="/#publishing">Publish</a>
-          <a href="/#about">About</a>
-        </div>
-        <div class="nav__actions">
-          <a href="/#subscribe" class="nav__btn-sub">Subscribe</a>
-          <a href="/#register" class="nav__btn-reg">Register Now</a>
-        </div>
-        <button class="nav__hamburger" id="hamburger" aria-label="Open menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-
-  <!-- Scroll Progress -->
-  <div id="scroll-progress"></div>
-
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- ===== HERO ===== -->
-  <section class="hero-simple" id="hero">
-    <div class="hero-simple__bg"></div>
-    <div class="container">
-      <div class="hero-simple__content">
-        <h1 class="heading-xl  reveal">Stories & Learning Hub</h1>
-        <p class="hero-simple__sub reveal reveal-delay-1">Inspiring stories from our young authors, writing tips, and behind-the-scenes moments</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== BLOGS LISTING ===== -->
-  <section class="blogs-listing">
-    <div class="container">
-      <!-- Filter Tabs -->
-      <div class="blogs-listing__filters">
-        <button class="filter-btn filter-btn--active" data-filter="all">All Articles</button>
-        <button class="filter-btn" data-filter="tips">Writing Tips</button>
-        <button class="filter-btn" data-filter="stories">Author Stories</button>
-        <button class="filter-btn" data-filter="behind">Behind the Scenes</button>
-        <button class="filter-btn" data-filter="inspiration">Inspiration</button>
-        <button class="filter-btn" data-filter="success">Success Stories</button>
-      </div>
-
-      <!-- Blog Grid -->
-      <div class="blogs-listing__grid" id="blogsGrid">
-        <!-- Blog items will be rendered here by JavaScript -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CTA SECTION ===== -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-section__content reveal">
-        <h2 class="heading-lg">Ready to Write Your Own Story?</h2>
-        <p>Join hundreds of young authors who have published their books with Tiny Star!</p>
-        <div class="cta-section__buttons">
-          <a href="/#register" class="btn btn--primary">Start Your Journey</a>
-          <a href="/#programs" class="btn btn--secondary">Learn More</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__stars-bg" id="footerStars"></div>
-
-      <div class="footer__top">
-        <div class="footer__brand">
-          <div class="footer__logo footer__logo-animated">
-            <img src="assets/brand/tiny-star-logo.png" alt="Tiny Star logo" class="footer__logo-img">
-            <span>Tiny Star</span>
-          </div>
-          <p class="footer__tagline">Where Young Authors Are Born. Helping children ages 6–10 become published authors and confident creators.</p>
-
-          <div class="footer__social">
-            <a href="https://linkedin.com/company/tiny-star-education" class="footer__social-link" title="Tiny Star Education" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
-            <a href="https://facebook.com/tinystar" class="footer__social-link" title="Tiny Star" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
-            <a href="https://instagram.com/tinystareducation" class="footer__social-link" title="@tinystareducation" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📷</a>
-            <a href="https://tiktok.com/@tinystar2075" class="footer__social-link" title="@tinystar2075" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
-            <a href="https://wechat.com/authorjoymeng" class="footer__social-link" title="authorjoymeng" target="_blank" rel="noopener noreferrer" aria-label="WeChat">💬</a>
-            <a href="mailto:Joy@TheTinyStar.com" class="footer__social-link" title="Joy@TheTinyStar.com" aria-label="Email">✉️</a>
-          </div>
-        </div>
-
-        <div class="footer__col">
-          <div class="footer__col-title">Programs</div>
-          <div class="footer__links">
-            <a href="/#programs">After-School Program</a>
-            <a href="/#programs">Workshops</a>
-            <a href="/#camps">Summer Camp</a>
-            <a href="/#camps">No-School-Day Camp</a>
-            <a href="/#camps">Spring Break Camp</a>
-            <a href="/#camps">Winter Break Camp</a>
-          </div>
-        </div>
-
-        <div class="footer__col">
-          <div class="footer__col-title">Company</div>
-          <div class="footer__links">
-            <a href="/#about">About Us</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="assets/brand/tiny-star-logo.png" />
+    <title>Blog - Tiny Star</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="nav blog" id="navbar">
+      <div class="container">
+        <div class="nav__inner">
+          <a href="/" class="nav__logo">
+            <div class="nav__logo-img">
+              <img src="assets/brand/tiny-star-logo.png" alt="Tiny Star logo" />
+            </div>
+            Tiny Star
+          </a>
+          <div class="nav__links">
+            <a href="/#programs">Programs</a>
+            <a href="/#camps">Camps</a>
             <a href="/#authors">Young Authors</a>
-            <a href="/#publishing">Publishing Service</a>
             <a href="/#partners">Partner With Us</a>
-            <a href="/">Blog</a>
-            <a href="mailto:hello@thetinystar.com">Contact</a>
+            <a href="/#publishing">Publish</a>
+            <a href="#blog">Blogs</a>
+            <a href="/#about">About</a>
           </div>
+          <div class="nav__actions">
+            <a href="/#subscribe" class="nav__btn-sub">Subscribe</a>
+            <a href="/#register" class="nav__btn-reg">Register Now</a>
+          </div>
+          <button class="nav__hamburger" id="hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero-simple" id="hero">
+      <div class="hero-simple__bg"></div>
+      <div class="container">
+        <div class="hero-simple__content">
+          <h1 class="heading-xl reveal">Stories & Learning Hub</h1>
+          <p class="hero-simple__sub reveal reveal-delay-1">
+            Inspiring stories from our young authors, writing tips, and
+            behind-the-scenes moments
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BLOGS LISTING ===== -->
+    <section class="blogs-listing">
+      <div class="container">
+        <!-- Filter Tabs -->
+        <div class="blogs-listing__filters">
+          <button class="filter-btn filter-btn--active" data-filter="all">
+            All Articles
+          </button>
+          <button class="filter-btn" data-filter="young-authors">
+            Young Author Stories
+          </button>
+          <button class="filter-btn" data-filter="parents">
+            For Parents and Partners
+          </button>
+          <button class="filter-btn" data-filter="news">
+            Tiny Star News
+          </button>
         </div>
 
-        <div class="footer__col">
-          <div class="footer__col-title">Locations</div>
-          <div class="footer__links">
-            <a href="/#locations">Weston, MA</a>
-            <a href="/#locations">Wellesley, MA</a>
-            <a href="/#locations">Wayland, MA</a>
-            <a href="/#locations">Belmont, MA</a>
+        <!-- Blog Grid -->
+        <div class="blogs-listing__grid" id="blogsGrid">
+          <!-- Blog items will be rendered here by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-section__content reveal">
+          <h2 class="heading-lg">Ready to Write Your Own Story?</h2>
+          <p>
+            Join hundreds of young authors who have published their books with
+            Tiny Star!
+          </p>
+          <div class="cta-section__buttons">
+            <a href="/#register" class="btn btn--primary">Start Your Journey</a>
+            <a href="/#programs" class="btn btn--secondary">Learn More</a>
           </div>
-          <div class="footer__contact-box">
-            <div class="footer__col-title footer__col-title--small">Contact</div>
-            <div class="footer__contact-items">
-              <a href="mailto:hello@thetinystar.com">hello@thetinystar.com</a>
-              <a href="https://thetinystar.com" target="_blank" rel="noopener noreferrer">thetinystar.com</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__stars-bg" id="footerStars"></div>
+
+        <div class="footer__top">
+          <div class="footer__brand">
+            <div class="footer__logo footer__logo-animated">
+              <img
+                src="assets/brand/tiny-star-logo.png"
+                alt="Tiny Star logo"
+                class="footer__logo-img"
+              />
+              <span>Tiny Star</span>
+            </div>
+            <p class="footer__tagline">
+              Where Young Authors Are Born. Helping children ages 6–10 become
+              published authors and confident creators.
+            </p>
+
+            <div class="footer__social">
+              <a
+                href="https://linkedin.com/company/tiny-star-education"
+                class="footer__social-link"
+                title="Tiny Star Education"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                >in</a
+              >
+              <a
+                href="https://facebook.com/tinystar"
+                class="footer__social-link"
+                title="Tiny Star"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                >f</a
+              >
+              <a
+                href="https://instagram.com/tinystareducation"
+                class="footer__social-link"
+                title="@tinystareducation"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                >📷</a
+              >
+              <a
+                href="https://tiktok.com/@tinystar2075"
+                class="footer__social-link"
+                title="@tinystar2075"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                >🎵</a
+              >
+              <a
+                href="https://wechat.com/authorjoymeng"
+                class="footer__social-link"
+                title="authorjoymeng"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WeChat"
+                >💬</a
+              >
+              <a
+                href="mailto:Joy@TheTinyStar.com"
+                class="footer__social-link"
+                title="Joy@TheTinyStar.com"
+                aria-label="Email"
+                >✉️</a
+              >
+            </div>
+          </div>
+
+          <div class="footer__col">
+            <div class="footer__col-title">Programs</div>
+            <div class="footer__links">
+              <a href="/#programs">After-School Program</a>
+              <a href="/#programs">Workshops</a>
+              <a href="/#camps">Summer Camp</a>
+              <a href="/#camps">No-School-Day Camp</a>
+              <a href="/#camps">Spring Break Camp</a>
+              <a href="/#camps">Winter Break Camp</a>
+            </div>
+          </div>
+
+          <div class="footer__col">
+            <div class="footer__col-title">Company</div>
+            <div class="footer__links">
+              <a href="/#about">About Us</a>
+              <a href="/#authors">Young Authors</a>
+              <a href="/#publishing">Publishing Service</a>
+              <a href="/#partners">Partner With Us</a>
+              <a href="/#blog">Blog</a>
+              <a href="mailto:hello@thetinystar.com">Contact</a>
+            </div>
+          </div>
+
+          <div class="footer__col">
+            <div class="footer__col-title">Locations</div>
+            <div class="footer__links">
+              <a href="/#locations">Weston, MA</a>
+              <a href="/#locations">Wellesley, MA</a>
+              <a href="/#locations">Wayland, MA</a>
+              <a href="/#locations">Belmont, MA</a>
+            </div>
+            <div class="footer__contact-box">
+              <div class="footer__col-title footer__col-title--small">
+                Contact
+              </div>
+              <div class="footer__contact-items">
+                <a href="mailto:hello@thetinystar.com">hello@thetinystar.com</a>
+                <a
+                  href="https://thetinystar.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >thetinystar.com</a
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="footer__bottom">
-        <div class="footer__copy">© 2026 Tiny Star. All rights reserved.</div>
-        <div class="footer__legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
+        <div class="footer__bottom">
+          <div class="footer__copy">© 2026 Tiny Star. All rights reserved.</div>
+          <div class="footer__legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
+        </div>
+
+        <div class="footer__particles" id="footerParticles"></div>
+      </div>
+    </footer>
+
+    <!-- Chatbot (same as main site) -->
+    <div id="chatbot-launcher">
+      <div class="chatbot-panel" id="chatPanel">
+        <div class="chatbot-header">
+          <div class="chatbot-avatar">
+            <img
+              src="assets/brand/tiny-star-logo.png"
+              alt="Tiny Star"
+              style="
+                width: 28px;
+                height: 28px;
+                object-fit: contain;
+                display: block;
+              "
+            />
+          </div>
+          <div class="chatbot-header-text">
+            <div class="chatbot-name">Aanya — Tiny Star Guide</div>
+            <div class="chatbot-status">Online now</div>
+          </div>
+          <button class="chatbot-close" id="chatClose" aria-label="Close chat">
+            ✕
+          </button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+          <div class="chatmsg chatmsg--bot">
+            <div class="chatmsg__avatar">
+              <img
+                src="assets/brand/tiny-star-logo.png"
+                alt="Tiny Star"
+                style="
+                  width: 24px;
+                  height: 24px;
+                  object-fit: contain;
+                  display: block;
+                "
+              />
+            </div>
+            <div class="chatmsg__bubble">
+              Hi! 👋 Welcome to our blog! What would you like to read about?
+            </div>
+          </div>
+        </div>
+        <div class="chat-quickreplies" id="quickReplies">
+          <button class="chat-quickbtn" onclick="chatQuick('Writing tips')">
+            ✏️ Writing Tips
+          </button>
+          <button class="chat-quickbtn" onclick="chatQuick('Author stories')">
+            📚 Stories
+          </button>
+          <button class="chat-quickbtn" onclick="chatQuick('How to register')">
+            ✅ Register
+          </button>
+        </div>
+        <div class="chatbot-input-row">
+          <input
+            class="chatbot-input"
+            id="chatInput"
+            type="text"
+            placeholder="Ask me anything…"
+            onkeydown="if (event.key === 'Enter') sendChat();"
+          />
+          <button class="chatbot-send" onclick="sendChat()" aria-label="Send">
+            ➤
+          </button>
+        </div>
+        <div class="chatbot-footer">
+          Powered by Tiny Star ·
+          <a
+            href="https://thetinystar.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            >thetinystar.com</a
+          >
         </div>
       </div>
-
-      <div class="footer__particles" id="footerParticles"></div>
+      <button
+        class="chatbot-fab"
+        id="chatFab"
+        onclick="toggleChat()"
+        aria-label="Open chat"
+      >
+        <span id="fabIcon"
+          ><img
+            src="assets/brand/tiny-star-logo.png"
+            alt="Tiny Star"
+            style="width: 50px; height: 50px"
+        /></span>
+        <div class="chatbot-badge" id="chatBadge">1</div>
+      </button>
     </div>
-  </footer>
 
-  <!-- Chatbot (same as main site) -->
-  <div id="chatbot-launcher">
-    <div class="chatbot-panel" id="chatPanel">
-      <div class="chatbot-header">
-        <div class="chatbot-avatar"><img src="assets/brand/tiny-star-logo.png" alt="Tiny Star" style="width:28px;height:28px;object-fit:contain;display:block;"></div>
-        <div class="chatbot-header-text">
-          <div class="chatbot-name">Aanya — Tiny Star Guide</div>
-          <div class="chatbot-status">Online now</div>
-        </div>
-        <button class="chatbot-close" id="chatClose" aria-label="Close chat">✕</button>
-      </div>
-      <div class="chatbot-messages" id="chatMessages">
-        <div class="chatmsg chatmsg--bot">
-          <div class="chatmsg__avatar"><img src="assets/brand/tiny-star-logo.png" alt="Tiny Star" style="width:24px;height:24px;object-fit:contain;display:block;"></div>
-          <div class="chatmsg__bubble">Hi! 👋 Welcome to our blog! What would you like to read about?</div>
-        </div>
-      </div>
-      <div class="chat-quickreplies" id="quickReplies">
-        <button class="chat-quickbtn" onclick="chatQuick('Writing tips')">✏️ Writing Tips</button>
-        <button class="chat-quickbtn" onclick="chatQuick('Author stories')">📚 Stories</button>
-        <button class="chat-quickbtn" onclick="chatQuick('How to register')">✅ Register</button>
-      </div>
-      <div class="chatbot-input-row">
-        <input class="chatbot-input" id="chatInput" type="text" placeholder="Ask me anything…" onkeydown="if(event.key==='Enter') sendChat()">
-        <button class="chatbot-send" onclick="sendChat()" aria-label="Send">➤</button>
-      </div>
-      <div class="chatbot-footer">Powered by Tiny Star · <a href="https://thetinystar.com" target="_blank" rel="noopener noreferrer">thetinystar.com</a></div>
-    </div>
-    <button class="chatbot-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
-      <span id="fabIcon"><img src="assets/brand/tiny-star-logo.png" alt="Tiny Star" style="width:50px;height:50px;"></span>
-      <div class="chatbot-badge" id="chatBadge">1</div>
-    </button>
-  </div>
-
-  <script src="main.js" defer></script>
-  <script src="blogs.js" defer></script>
-
-</body>
+    <script src="main.js" defer></script>
+    <script src="blogs.js" defer></script>
+  </body>
 </html>
